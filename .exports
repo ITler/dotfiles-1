@@ -1,0 +1,40 @@
+#!/usr/bin/env bash
+
+# Path to oh-my-zsh installation.
+export ZSH="$HOME"/.oh-my-zsh
+
+# Configuration for python-virtualenv
+export WORKON_HOME="$HOME"/pc/code/virtualenvs
+export PROJECT_HOME="$HOME"/pc/prj
+
+# Golang related
+export GOPATH=/home/sd/pc/code/go
+
+# Snap related
+export SNAP_PATH=/snap/bin
+
+# Nvm related
+export NVM_DIR=/home/sd/.nvm
+# shellcheck source=/dev/null
+[ -s "$NVM_DIR"/nvm.sh ] && . "$NVM_DIR"/nvm.sh  # This loads nvm
+
+# Java related
+export JDK_HOME=/usr/lib/jvm/default
+
+# Make vim the default editor
+export EDITOR=/usr/bin/vim;
+export VISUAL=/usr/bin/vim
+export TERMINAL=urxvt;
+
+# Prefer DE_de German and use UTF-8
+export LANG="de_DE.UTF-8";
+export LC_ALL="de_DE.UTF-8";
+
+# Don’t clear the screen after quitting a manual page
+export MANPAGER="less -X";
+
+# if it's an ssh session export GPG_TTY
+if [[ -n "$SSH_CLIENT" ]] || [[ -n "$SSH_TTY" ]]; then
+	GPG_TTY=$(tty)
+	export GPG_TTY
+fi
