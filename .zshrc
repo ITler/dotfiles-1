@@ -13,4 +13,7 @@ ENABLE_CORRECTION="true"
 # Add wisely, as too many plugins slow down shell startup.
 plugins=(git pass autojump zsh-syntax-highlighting jira sprunge)
 
+# load fash
+eval "$(fasd --init auto)"
+
 source $ZSH/oh-my-zsh.sh

@@ -245,10 +245,11 @@ desktop() {
 		gtk2 \
 		rofi \
 		xdotool \
-    python-virtaulenv \
-    python-pip
+		fasd \
+		python-virtaulenv \
+		python-pip
 
-  pip install virtualenvwrapper
+  	pip install virtualenvwrapper
 
 	install_fonts
 	install_keybase
