@@ -11,25 +11,21 @@ bin: ## Installs the bin directory files.
 
 .PHONY: dotfiles
 dotfiles: ## Installs the dotfiles.
-	# add aliases for dotfiles
-	for file in $(shell find $(CURDIR) -name ".*" -not -name ".gitignore" -not -name ".travis.yml" -not -name ".git" -not -name ".*.swp" -not -name ".gnupg"); do \
+	# add aliases for dotfiles located in $XDG_CONFIG_HOME
+	for dir in $(shell find $(CURDIR)/.config -type d -not -name ".*"); do \
+		d=$$(basename $$dir); \
+		ln -sfn $$dir $(HOME)/.config/$$d; \
+	done;
+	# add aliases for remaining dotfiles
+	for file in $(shell find $(CURDIR) -name ".*" -not -name ".config" -not -name ".gitignore" -not -name ".travis.yml" -not -name ".git" -not -name ".*.swp" -not -name ".gnupg"); do \
 		f=$$(basename $$file); \
 		ln -sfn $$file $(HOME)/$$f; \
-	done; \
+	done;
 	gpg --list-keys || true;
 	ln -sfn $(CURDIR)/.gnupg/gpg.conf $(HOME)/.gnupg/gpg.conf;
 	ln -sfn $(CURDIR)/.gnupg/gpg-agent.conf $(HOME)/.gnupg/gpg-agent.conf;
 	ln -fn $(CURDIR)/gitignore $(HOME)/.gitignore;
-	git update-index --skip-worktree $(CURDIR)/.gitconfig;
-	mkdir -p $(HOME)/.config;
-	ln -snf $(CURDIR)/.i3 $(HOME)/.config/sway;
-	ln -snf $(CURDIR)/.i3 $(HOME)/.i3;
-	mkdir -p $(HOME)/.local/share;
-	mkdir -p $(HOME)/.config/fonts;
-	ln -snf $(CURDIR)/.fonts/fonts.conf $(HOME)/.config/fonts/fonts.conf;
-	ln -snf $(CURDIR)/.zprofile $(HOME)/.zprofile;
-	ln -snf $(CURDIR)/.zshrc $(HOME)/.zshrc;
-	ln -snf $(CURDIR)/.zshenv $(HOME)/.zshenv;
+	#git update-index --skip-worktree $(CURDIR)/.gitconfig;
 	if [[ -f /usr/local/bin/pinentry ]]; then \
 		sudo ln -snf /usr/bin/pinentry /usr/local/bin/pinentry; \
 	fi;

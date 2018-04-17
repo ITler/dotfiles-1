@@ -242,7 +242,9 @@ desktop() {
 		openssh \
 		pass \
 	# gtk2 for /bin/pinentry
-		gtk2
+		gtk2 \
+		rofi
+	
 
 	install_fonts
 	install_keybase
