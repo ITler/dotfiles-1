@@ -4,8 +4,8 @@
 
 set $mod Mod4
 set $term urxvt
-set $menu i3-dmenu-desktop
-set $barcmd i3status
+set $menu rofi -show combi
+set $barcmd i3blocks
 set $lockcmd i3lock
 
 # Font for window titles. Will also be used by the bar unless a different font
@@ -40,6 +40,9 @@ bindsym $mod+Return exec $term
 
 # start dmenu
 bindsym $mod+d exec $menu
+
+# start rofi-pass
+bindsym $mod+Shift+d exec rofi-pass
 
 # kill focused window
 bindsym $mod+Shift+q kill
@@ -214,7 +217,7 @@ bindsym $mod+r mode "resize"
 # i3status bar config
 bar {
 	font pango:monospace, Font Awesome 5 8
-	status_command SCRIPT_DIR=~/.i3 i3blocks
+	status_command SCRIPT_DIR=~/.config/i3 $barcmd
 }
 
 # auto run commands

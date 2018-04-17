@@ -243,7 +243,8 @@ desktop() {
 		pass \
 	# gtk2 for /bin/pinentry
 		gtk2 \
-		rofi
+		rofi \
+		xdotool
 	
 
 	install_fonts
@@ -280,11 +281,16 @@ setup_sudo() {
 	echo -e "\\n# tmpfs for downloads\\ntmpfs\\t/home/${TARGET_USER}/Downloads\\ttmpfs\\tnodev,nosuid,size=2G\\t0\\t0" >> /etc/fstab
 }
 
+install_rofi_pass() {
+	curl -fSL https://github.com/carnager/rofi-pass/archive/2.0.1.tar.gz > /tmp/rofi-pass.tar.gz
+	cd /tmp && tar xvf rofi-pass.tar.gz
+	cp /tmp/rofi-pass*/rofi-pass ~/bin/
+}
 # install keybase
 install_keybase() {
 	curl -fSsl https://aur.archlinux.org/cgit/aur.git/snapshot/keybase-bin.tar.gz > /tmp/keybase-bin.tar.gz
 	cd /tmp && tar xvf keybase-bin.tar.gz \
-		cd && /tmp/keybase-bin
+  	&& cd /tmp/keybase-bin
 	makepkg -s PKGBUILD
 	pacman -U keybase-bin*tar.xz
 }
