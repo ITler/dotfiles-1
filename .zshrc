@@ -1,5 +1,5 @@
 # Source the commands for python virtualenv
-source ~/.local/bin/virtualenvwrapper.sh
+source /bin/virtualenvwrapper.sh
 
 # Set name of the theme to load.
 # Look in ~/.oh-my-zsh/themes/

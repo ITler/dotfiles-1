@@ -244,8 +244,11 @@ desktop() {
 	# gtk2 for /bin/pinentry
 		gtk2 \
 		rofi \
-		xdotool
-	
+		xdotool \
+    python-virtaulenv \
+    python-pip
+
+  pip install virtualenvwrapper
 
 	install_fonts
 	install_keybase
