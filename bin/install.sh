@@ -694,6 +694,7 @@ usage() {
 	echo "  vim                                 - install vim specific dotfiles"
 	echo "  golang                              - install golang and packages"
 	echo "  scripts                             - install scripts"
+	echo "  spacemacs                           - install spacemacs (emacs in god mode)"
 	echo "  syncthing                           - install syncthing"
 	echo "  vagrant                             - install vagrant and virtualbox"
 }
@@ -742,6 +743,8 @@ main() {
 		install_golang "$2"
 	elif [[ $cmd == "scripts" ]]; then
 		install_scripts
+	elif [[ $cmd == "spacemacs" ]]; then
+		install_spacemacs
 	elif [[ $cmd == "syncthing" ]]; then
 		get_user
 		install_syncthing
