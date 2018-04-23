@@ -235,7 +235,7 @@ desktop() {
 
 	sh /tmp/oh-my-zsh.sh
 
-	pacman -S \
+	sudo pacman -S \
 		zsh \
 		qutebrowser \
 		rsync \
@@ -254,9 +254,9 @@ desktop() {
 		aspell-de \
 		lightdm
 
-  	pip install virtualenvwrapper
+  	sudo pip install virtualenvwrapper
 	# enable display manager
-	systemctl enable lightdm
+	sudo systemctl enable lightdm
 	# set altgr international keyboard
 	localectl --no-convert set-x11-keymap us pc102, altgr-intl
 
@@ -712,8 +712,7 @@ main() {
 		check_is_sudo
 		setup_chroot
 	elif [[ $cmd == "desktop" ]]; then
-		check_is_sudo
-		install_desktop
+		desktop
 	elif [[ $cmd == "partitioning" ]]; then
 		setup_partitions
 	elif [[ $cmd == "base" ]]; then
