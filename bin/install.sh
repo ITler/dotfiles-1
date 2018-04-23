@@ -306,7 +306,7 @@ install_keybase() {
 	cd /tmp && tar xvf keybase-bin.tar.gz \
   	&& cd /tmp/keybase-bin
 	makepkg -s PKGBUILD
-	pacman -U keybase-bin*tar.xz
+	sudo pacman -U keybase-bin*tar.xz
 }
 # installs docker master
 # and adds necessary items to boot params
