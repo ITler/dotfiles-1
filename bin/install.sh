@@ -262,6 +262,7 @@ desktop() {
 
 	install_fonts
 	install_keybase
+	install_rofi_pass
 }
 # setup sudo for a user
 # because fuck typing that shit all the time
@@ -712,7 +713,6 @@ main() {
 		setup_chroot
 	elif [[ $cmd == "desktop" ]]; then
 		check_is_sudo
-		base
 		install_desktop
 	elif [[ $cmd == "partitioning" ]]; then
 		setup_partitions
