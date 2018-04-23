@@ -247,9 +247,18 @@ desktop() {
 		xdotool \
 		fasd \
 		python-virtaulenv \
-		python-pip
+		python-pip \
+		zathura \
+		zathura-pdf-mupdf \
+		aspell-en \
+		aspell-de \
+		lightdm
 
   	pip install virtualenvwrapper
+	# enable display manager
+	systemctl enable lightdm
+	# set altgr international keyboard
+	localectl --no-convert set-x11-keymap us pc102, altgr-intl
 
 	install_fonts
 	install_keybase
