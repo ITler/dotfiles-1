@@ -571,7 +571,8 @@ install_spacemacs() {
 		emacs \
 		nodejs \
 		mu \
-		npm
+		npm \
+		isync
 	npm install -g tern
 	cat <<-EOFF
 	now after loading spacemacs and letting it install all the necessary
