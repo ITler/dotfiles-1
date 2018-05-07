@@ -605,6 +605,10 @@ install_spacemacs() {
 
 	- Don't forget to update the mu database by running the following command
 	> mu index --maildir ~/q/mail/Personal
+
+  # PDF Tools
+
+  - Make sure to run `pdf-tools-install` to properly install pdf-tools
 	EOFF
 }
 
