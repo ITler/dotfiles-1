@@ -421,7 +421,7 @@ install_golang() {
   # dependency management tool
   go get -u github.com/tools/godep
   # for command autocompletion
-  go get -u github.com/nfs/gocode
+  go get -u github.com/nsf/gocode
 }
 
 # install graphics drivers
