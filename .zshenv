@@ -4,6 +4,7 @@ path=(
 /bin
 /sbin
 /usr/bin
+/usr/bin/vendor_perl
 /usr/sbin
 /usr/local/bin
 "$HOME"/code/go/bin
