@@ -252,13 +252,15 @@ desktop() {
 		zathura-pdf-mupdf \
 		aspell-en \
 		aspell-de \
-		lightdm
+		lightdm \
+		pulseaudio \
+		pavucontrol
 
   	pip install virtualenvwrapper
 	# enable display manager
 	systemctl enable lightdm
 	# set altgr international keyboard
-	localectl --no-convert set-x11-keymap us pc102, altgr-intl
+	localectl --no-convert set-x11-keymap us,de thinkpad,thinkpad altgr-intl,neo grp:sclk_toggle
 
 	install_fonts
 	install_keybase
@@ -572,13 +574,31 @@ install_spacemacs() {
 		nodejs \
 		mu \
 		npm \
-		isync
+		isync \
+    # ghostscript is for Docview
+    ghostscript
 	npm install -g tern
 	cat <<-EOFF
-	now after loading spacemacs and letting it install all the necessary
+
+	# General
+
+	- now after loading spacemacs and letting it install all the necessary
 	packages run the following commands:
-	
+
 	:spacemacs/recompile-elpa
+
+	# IRC (aka. ERC)
+
+	- Also, the erc layer requires that you have a `.authinfo.gpg` file in
+	your home directory specifying the connection parameters for IRC
+	servers (or IRC bouncer) you want to connect to
+
+	# Email
+
+	- Make sure you edit your ~/.mbsyncrc file accordingly
+
+	- Don't forget to update the mu database by running the following command
+	> mu index --maildir ~/q/mail/Personal
 	EOFF
 }
 
