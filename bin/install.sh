@@ -416,6 +416,12 @@ install_golang() {
 	sudo chown -R "${user}" /usr/local/go/pkg
 	CGO_ENABLED=0 /usr/local/go/bin/go install -a -installsuffix cgo std
 	)
+  # for analysing symbols
+  go get -u github.com/rogpeppe/godef
+  # dependency management tool
+  go get -u github.com/tools/godep
+  # for command autocompletion
+  go get -u github.com/nfs/gocode
 }
 
 # install graphics drivers
