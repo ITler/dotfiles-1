@@ -645,6 +645,18 @@ install_vim() {
 	)
 }
 
+install_latex() {
+	sudo pacman -S \
+		rubber \
+		biber \
+    texlive-core \
+    texlive-latexextra \
+    texlive-bibtexextra \
+    texlive-fontsextra \
+    texlive-formatsextra \
+    pygmentize
+}
+
 install_virtualbox() {
 	# check if we need to install libvpx1
 	PKG_OK=$(dpkg-query -W --showformat='${Status}\n' libvpx1 | grep "install ok installed")
