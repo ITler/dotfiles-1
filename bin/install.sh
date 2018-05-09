@@ -252,13 +252,15 @@ desktop() {
 		zathura-pdf-mupdf \
 		aspell-en \
 		aspell-de \
-		lightdm
+		lightdm \
+		pulseaudio \
+		pavucontrol
 
   	sudo pip install virtualenvwrapper
 	# enable display manager
 	sudo systemctl enable lightdm
 	# set altgr international keyboard
-	localectl --no-convert set-x11-keymap us pc102, altgr-intl
+	localectl --no-convert set-x11-keymap us,de thinkpad,thinkpad altgr-intl,neo grp:sclk_toggle
 
 	install_fonts
 	install_keybase
@@ -414,6 +416,12 @@ install_golang() {
 	sudo chown -R "${user}" /usr/local/go/pkg
 	CGO_ENABLED=0 /usr/local/go/bin/go install -a -installsuffix cgo std
 	)
+  # for analysing symbols
+  go get -u github.com/rogpeppe/godef
+  # dependency management tool
+  go get -u github.com/tools/godep
+  # for command autocompletion
+  go get -u github.com/nsf/gocode
 }
 
 # install graphics drivers
@@ -571,13 +579,36 @@ install_spacemacs() {
 		emacs \
 		nodejs \
 		mu \
-		npm
+		npm \
+		isync \
+    # ghostscript is for Docview
+    ghostscript
 	npm install -g tern
 	cat <<-EOFF
-	now after loading spacemacs and letting it install all the necessary
+
+	# General
+
+	- now after loading spacemacs and letting it install all the necessary
 	packages run the following commands:
-	
+
 	:spacemacs/recompile-elpa
+
+	# IRC (aka. ERC)
+
+	- Also, the erc layer requires that you have a `.authinfo.gpg` file in
+	your home directory specifying the connection parameters for IRC
+	servers (or IRC bouncer) you want to connect to
+
+	# Email
+
+	- Make sure you edit your ~/.mbsyncrc file accordingly
+
+	- Don't forget to update the mu database by running the following command
+	> mu index --maildir ~/q/mail/Personal
+
+  # PDF Tools
+
+  - Make sure to run `pdf-tools-install` to properly install pdf-tools
 	EOFF
 }
 
@@ -622,6 +653,44 @@ install_vim() {
 		wheel \
 		neovim
 	)
+}
+
+install_paperless() {
+    git clone https://github.com/danielquinn/paperlistt.git ~/pc/prj/paperless
+    # install project dependencies
+    sudo pacman -S \
+         sane \
+         tesseract-data-eng \
+         tesseract-data-deu \
+         unpaper \
+         # for crappy HP products
+         hplip \
+         python-gobject \
+         python-pillow
+    # you might have to run the following
+    # to download necessary HP plugins
+    hp-plugin
+    # create project specific virtualenv
+    mkproject -p python3 paperless
+    sudo cp ~/q/software/paperless/paperless.conf.example /etc/paperless.conf
+    sudo sed -i -e 's#PAPERLESS_CONSUMPTION_DIR=""#PAPERLESS_CONSUMPTION_DIR="/home/sd/pc/prj/paperless/inbox"#' /etc/paperless.conf
+    #sudo sed -i -e "s#PAPERLESS_PASSPHRASE=\"[^\"]+\"#PAPERLESS_PASSPHRASE=\"$(pass -c paperless)\"#" /etc/paperless.conf
+    # Initialise the SQLite database
+    ~/q/software/paperless/src/manage.py migrate
+    # Create a user for your Paperless instance and follow the prompts
+    ~/q/software/paperless/src/manage.py createsuperuser
+}
+
+install_latex() {
+	sudo pacman -S \
+		rubber \
+		biber \
+    texlive-core \
+    texlive-latexextra \
+    texlive-bibtexextra \
+    texlive-fontsextra \
+    texlive-formatsextra \
+    pygmentize
 }
 
 install_virtualbox() {

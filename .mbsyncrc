@@ -1,0 +1,70 @@
+IMAPAccount CIPLI
+Host imap.gmail.com
+User sdaros@cip.li
+PassCmd "pass mbsync-sdaros@cip.li"
+SSLType IMAPS
+SSLVersions TLSv1.2
+CertificateFile /etc/ssl/certs/ca-certificates.crt
+
+IMAPStore CIPLI-remote
+Account CIPLI
+
+MaildirStore CIPLI-local
+Path ~/q/mail/Personal/
+Inbox ~/q/mail/Personal/INBOX
+SubFolders Verbatim
+
+Channel CIPLI
+Master :CIPLI-remote:
+Slave :CIPLI-local:
+Patterns *
+Create Both
+Expunge Both
+SyncState *
+
+IMAPAccount TUILM
+Host imap.tu-ilmenau.de
+User stda3148
+PassCmd "pass smtp-tuilm"
+SSLType IMAPS
+SSLVersions TLSv1.2
+CertificateFile /etc/ssl/certs/ca-certificates.crt
+
+IMAPStore TUILM-remote
+Account TUILM
+
+MaildirStore TUILM-local
+Path ~/q/mail/Tuilm/
+Inbox ~/q/mail/Tuilm/INBOX
+
+Channel TUILM
+Master :TUILM-remote:
+Slave :TUILM-local:
+Patterns *
+Create Both
+Expunge Both
+SyncState *
+
+IMAPAccount SIGNAVIO
+Host imap.gmail.com
+User stefano.daros@signavio.com
+PassCmd "pass mbsync-stefano.daros@signavio.com"
+SSLType IMAPS
+SSLVersions TLSv1.2
+CertificateFile /etc/ssl/certs/ca-certificates.crt
+
+IMAPStore SIGNAVIO-remote
+Account SIGNAVIO
+
+MaildirStore SIGNAVIO-local
+Path ~/q/mail/Signavio/
+Inbox ~/q/mail/Signavio/INBOX
+SubFolders Verbatim
+
+Channel SIGNAVIO
+Master :SIGNAVIO-remote:
+Slave :SIGNAVIO-local:
+Patterns *
+Create Both
+Expunge Both
+SyncState *
