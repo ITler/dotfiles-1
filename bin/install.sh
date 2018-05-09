@@ -422,6 +422,8 @@ install_golang() {
   go get -u github.com/tools/godep
   # for command autocompletion
   go get -u github.com/nsf/gocode
+  # for automatic imports
+  go get -u golang.org/x/tools/cmd/goimports
 }
 
 # install graphics drivers
