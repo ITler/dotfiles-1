@@ -655,6 +655,32 @@ install_vim() {
 	)
 }
 
+install_paperless() {
+    git clone https://github.com/danielquinn/paperlistt.git ~/pc/prj/paperless
+    # install project dependencies
+    sudo pacman -S \
+         sane \
+         tesseract-data-eng \
+         tesseract-data-deu \
+         unpaper \
+         # for crappy HP products
+         hplip \
+         python-gobject \
+         python-pillow
+    # you might have to run the following
+    # to download necessary HP plugins
+    hp-plugin
+    # create project specific virtualenv
+    mkproject -p python3 paperless
+    sudo cp ~/q/software/paperless/paperless.conf.example /etc/paperless.conf
+    sudo sed -i -e 's#PAPERLESS_CONSUMPTION_DIR=""#PAPERLESS_CONSUMPTION_DIR="/home/sd/pc/prj/paperless/inbox"#' /etc/paperless.conf
+    #sudo sed -i -e "s#PAPERLESS_PASSPHRASE=\"[^\"]+\"#PAPERLESS_PASSPHRASE=\"$(pass -c paperless)\"#" /etc/paperless.conf
+    # Initialise the SQLite database
+    ~/q/software/paperless/src/manage.py migrate
+    # Create a user for your Paperless instance and follow the prompts
+    ~/q/software/paperless/src/manage.py createsuperuser
+}
+
 install_latex() {
 	sudo pacman -S \
 		rubber \
