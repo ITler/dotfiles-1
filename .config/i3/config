@@ -47,11 +47,13 @@ bindsym $mod+Shift+d exec rofi-pass
 # kill focused window
 bindsym $mod+Shift+q kill
 
-# spotify: no border
+# set borders on new windows to none if they are in a split container. 
+# In stacked or tabbed containers the title bar(s) will still be
+# shown if there is more than one window in the container.
 for_window [class="^Spotify$"] border none
 for_window [class="^Spotify Premium$"] border none
 for_window [class="qutebrowser"] border none
-for_window [class="urxvt"] border none
+for_window [class="rxvt"] border pixel 1
 for_window [class="Emacs"] border none
 
 # skype, steam, wine: float Gimp
@@ -165,7 +167,7 @@ bindsym XF86MonBrightnessUp exec sudo light -A 5 # increase screen brightness
 bindsym XF86MonBrightnessDown exec sudo light -U 5 # decrease screen brightness
 
 # Screenshots
-# Screenshot fullscreen
+#urxvt Screenshot fullscreen
 bindsym Print exec "scrot -q 100 ${HOME}'/Pictures/Screenshots/%Y-%m-%d-%H-%M-%S_$wx$h.png' -e ${HOME}'/google-cloud-sdk/bin/gsutil cp -a public-read $f gs://misc.j3ss.co/screenshots/ && echo https://misc.j3ss.co/screenshots/$n | xclip -i -selection clipboard'"
 # Screenshot fullscreen, sway
 #bindsym Shift+Print exec "swaygrab ${HOME}/Pictures/Screenshots/$(date '+%Y-%m-%d-%H-%M-%S').png"
