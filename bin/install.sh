@@ -249,16 +249,22 @@ desktop() {
 		python-virtaulenv \
 		python-pip \
 		zathura \
-		zathura-pdf-mupdf \
+		zathura-pdf-poppler \
 		aspell-en \
 		aspell-de \
-		lightdm \
+		lxdm \
 		pulseaudio \
 		pavucontrol
 
-  	pip install virtualenvwrapper
+  pip install virtualenvwrapper
 	# enable display manager
-	systemctl enable lightdm
+	systemctl enable lxdm
+  sed -i -e 's/#autologin=.*$/autologin=sd'
+  sed -i -e 's/#session=.*$/session=/usr/bin/i3'
+	cat <<-EOFF >> /etc/lxdm/PostLogin
+/usr/bin/setxkbmap -option caps:escape
+/usr/bin/xset r rate 200 50
+  EOFF
 	# set altgr international keyboard
 	localectl --no-convert set-x11-keymap us,de thinkpad,thinkpad altgr-intl,neo grp:sclk_toggle
 
@@ -523,7 +529,7 @@ install_fonts() {
 }
 # install stuff for i3 window manager
 install_wmapps() {
-	local pkgs=( feh i3 i3lock i3status scrot xorg-xinit xorg-server sysstat acpi)
+	local pkgs=( feh i3 i3lock i3status scrot xorg-xinit xorg-server sysstat acpi perl-i3-anyevent)
 
 	pacman -S "${pkgs[@]}"
 
