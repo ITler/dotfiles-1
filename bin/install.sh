@@ -254,7 +254,10 @@ desktop() {
 		aspell-de \
 		lxdm \
 		pulseaudio \
-		pavucontrol
+		pavucontrol \
+    # Use avahi and nss-mdns for resolving hosts in the .local TLD
+    avahi \
+    nss-mdns
 
   pip install virtualenvwrapper
 	# enable display manager
