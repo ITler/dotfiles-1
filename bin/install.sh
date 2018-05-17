@@ -235,7 +235,7 @@ desktop() {
 
 	sh /tmp/oh-my-zsh.sh
 
-	pacman -S \
+	sudo pacman -S \
 		zsh \
 		qutebrowser \
 		rsync \
@@ -265,12 +265,9 @@ desktop() {
   sed -i -e 's/#autologin=.*$/autologin=sd'
   sed -i -e 's/#session=.*$/session=/usr/bin/i3'
 	cat <<-EOFF >> /etc/lxdm/PostLogin
-/usr/bin/setxkbmap -option caps:escape
+/usr/bin/setxkbmap us altgr-intl -option caps:escape
 /usr/bin/xset r rate 200 50
   EOFF
-	# set altgr international keyboard
-	localectl --no-convert set-x11-keymap us,de thinkpad,thinkpad altgr-intl,neo grp:sclk_toggle
-
 	install_fonts
 	install_keybase
 	install_rofi_pass
@@ -317,7 +314,7 @@ install_keybase() {
 	cd /tmp && tar xvf keybase-bin.tar.gz \
   	&& cd /tmp/keybase-bin
 	makepkg -s PKGBUILD
-	pacman -U keybase-bin*tar.xz
+	sudo pacman -U keybase-bin*tar.xz
 }
 # installs docker master
 # and adds necessary items to boot params
@@ -431,6 +428,8 @@ install_golang() {
   go get -u github.com/tools/godep
   # for command autocompletion
   go get -u github.com/nsf/gocode
+  # for automatic imports
+  go get -u golang.org/x/tools/cmd/goimports
 }
 
 # install graphics drivers
@@ -791,8 +790,7 @@ main() {
 		check_is_sudo
 		setup_chroot
 	elif [[ $cmd == "desktop" ]]; then
-		check_is_sudo
-		install_desktop
+		desktop
 	elif [[ $cmd == "partitioning" ]]; then
 		setup_partitions
 	elif [[ $cmd == "base" ]]; then
