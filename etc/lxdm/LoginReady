@@ -1,0 +1,5 @@
+#!/bin/sh
+#
+# Note: this is a sample and will not be run as is.
+/usr/bin/setxkbmap -option caps:escape
+/usr/bin/xset r rate 200 50

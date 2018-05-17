@@ -249,19 +249,22 @@ desktop() {
 		python-virtaulenv \
 		python-pip \
 		zathura \
-		zathura-pdf-mupdf \
+		zathura-pdf-poppler \
 		aspell-en \
 		aspell-de \
-		lightdm \
+		lxdm \
 		pulseaudio \
 		pavucontrol
 
-  	sudo pip install virtualenvwrapper
+  pip install virtualenvwrapper
 	# enable display manager
-	sudo systemctl enable lightdm
-	# set altgr international keyboard
-	localectl --no-convert set-x11-keymap us,de thinkpad,thinkpad altgr-intl,neo grp:sclk_toggle
-
+	systemctl enable lxdm
+  sed -i -e 's/#autologin=.*$/autologin=sd'
+  sed -i -e 's/#session=.*$/session=/usr/bin/i3'
+	cat <<-EOFF >> /etc/lxdm/PostLogin
+/usr/bin/setxkbmap us altgr-intl -option caps:escape
+/usr/bin/xset r rate 200 50
+  EOFF
 	install_fonts
 	install_keybase
 	install_rofi_pass
@@ -522,10 +525,11 @@ install_fonts() {
 		ttf-dejavu \
 		ttf-linux-libertine \
 		ttf-font-awesome
+  # and ttf-opensans from AUR
 }
 # install stuff for i3 window manager
 install_wmapps() {
-	local pkgs=( feh i3 i3lock i3status scrot xorg-xinit xorg-server sysstat acpi)
+	local pkgs=( feh i3 i3lock i3status scrot xorg-xinit xorg-server sysstat acpi perl-i3-anyevent)
 
 	pacman -S "${pkgs[@]}"
 
