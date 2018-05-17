@@ -7,6 +7,7 @@ set $term urxvt
 set $menu rofi -show combi
 set $barcmd i3blocks
 set $lockcmd i3lock
+set $bindir /home/sd/bin/
 
 # Font for window titles. Will also be used by the bar unless a different font
 # is used in the bar {} block below.
@@ -42,7 +43,7 @@ bindsym $mod+Return exec $term
 bindsym $mod+d exec $menu
 
 # start rofi-pass
-bindsym $mod+Shift+d exec rofi-pass
+bindsym $mod+p exec $bindir/rofi-pass
 
 # kill focused window
 bindsym $mod+Shift+q kill
@@ -52,9 +53,9 @@ bindsym $mod+Shift+q kill
 # shown if there is more than one window in the container.
 for_window [class="^Spotify$"] border none
 for_window [class="^Spotify Premium$"] border none
-for_window [class="qutebrowser"] border none
-for_window [class="rxvt"] border pixel 1
-for_window [class="Emacs"] border none
+for_window [class="^qutebrowser"] border none
+for_window [class="^urxvt"] border none
+for_window [class="^Emacs"] border none
 
 # skype, steam, wine: float Gimp
 for_window [class="Code"] floating enable
@@ -248,3 +249,6 @@ mode "$mode_display" {
 }
 # Declare here the shortcut to bring the display selection menu
 bindsym $mod+g mode "$mode_display"
+
+# autoload following programs
+exec --no-startup-id i3-msg "workspace 1; exec urxvt; exec urxvt; workspace 2; exec emacs; workspace 3; exec qutebrowser; exec export KEYBASE_START_UI=hideWindow && run_keybase"

@@ -526,6 +526,7 @@ install_fonts() {
 		ttf-dejavu \
 		ttf-linux-libertine \
 		ttf-font-awesome
+  # and ttf-opensans from AUR
 }
 # install stuff for i3 window manager
 install_wmapps() {
