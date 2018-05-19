@@ -128,7 +128,7 @@ alias z='fasd_cd -d'
 alias zz='fasd_cd -d -i'
 
 # open znc bouncer for IRC channels
-alias znc='function _znc() {ssh -fL 9999:localhost:6667 asgard -N};_znc'
+alias znc='function _znc() {ssh -fL 9999:localhost:62828 loki -N};_znc'
 
 # Get current time in another timezone using tab completion
 # e.g. now<SPC>Sing<Tab> for `now Singapore`
