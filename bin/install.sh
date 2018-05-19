@@ -592,7 +592,7 @@ install_spacemacs() {
 		isync \
     # ghostscript is for Docview
     ghostscript
-	npm install -g tern
+	npm install -g tern eslint babel-eslint eslint-plugin-react
 	cat <<-EOFF
 
 	# General
