@@ -31,8 +31,8 @@ check_is_sudo() {
 	fi
 }
 setup_chroot() {
-	"$(pwd)"/arch-bootstrap /mnt
-	cat <<-EOF
+	  "$(pwd)"/arch-bootstrap /mnt
+    cat <<-EOF
 	# Make sure you have bound the proper devices first:
 
 	mount --bind /proc /mnt/proc
@@ -241,7 +241,7 @@ desktop() {
 		rsync \
 		openssh \
 		pass \
-	# gtk2 for /bin/pinentry
+	  # gtk2 for /bin/pinentry
 		gtk2 \
 		rofi \
 		xdotool \
@@ -257,7 +257,12 @@ desktop() {
 		pavucontrol \
     # Use avahi and nss-mdns for resolving hosts in the .local TLD
     avahi \
-    nss-mdns
+    nss-mdns \
+    # for bluetooth headset
+    pulseaudio-bluetooth \
+    bluez \
+    bluez-libs \
+    bluez-util
 
   pip install virtualenvwrapper
 	# enable display manager
