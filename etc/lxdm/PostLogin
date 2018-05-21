@@ -4,3 +4,4 @@
 #/usr/bin/setxkbmap us,de altgr-intl,neo -option grp:sclk_toggle -option caps:escape
 /usr/bin/setxkbmap us altgr-intl -option caps:escape
 /usr/bin/xset r rate 200 50
+/usr/bin/emacs --daemon=theone
