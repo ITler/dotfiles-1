@@ -4,7 +4,7 @@
 
 set $mod Mod4
 set $term urxvt
-set $menu rofi -show combi
+set $menu rofi -show combi -run-list-command ". /home/sd/bin/zsh-aliases-functions" -run-command "/bin/zsh -i -c '{cmd}'" -rnow  
 set $barcmd i3blocks
 set $lockcmd i3lock
 set $bindir /home/sd/bin/
@@ -251,4 +251,4 @@ mode "$mode_display" {
 bindsym $mod+g mode "$mode_display"
 
 # autoload following programs
-exec --no-startup-id i3-msg "workspace 1; exec urxvt; exec urxvt; workspace 2; exec emacs; exec export KEYBASE_START_UI=hideWindow && run_keybase"
+exec --no-startup-id i3-msg "workspace 1; exec urxvt; exec urxvt; workspace 2; exec emacsclient -nc -s theone; exec export KEYBASE_START_UI=hideWindow && run_keybase"

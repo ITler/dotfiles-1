@@ -136,3 +136,9 @@ alias now='zdump'
 
 # Disable broken fan for my thinkpad T420
 alias fan="sudo su -c 'echo level 1 | tee /proc/acpi/ibm/fan'"
+
+# Enable the webengine inspector (dev tools) by default
+alias qutebrowser="qutebrowser --enable-webengine-inspector"
+
+# Emacs client when we have a running emacs daemon
+alias emc="emacsclient -nc -s theone"
