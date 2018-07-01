@@ -262,7 +262,7 @@ desktop() {
     pulseaudio-bluetooth \
     bluez \
     bluez-libs \
-    bluez-util
+    bluez-utils
 
   pip install virtualenvwrapper
 	# enable display manager
