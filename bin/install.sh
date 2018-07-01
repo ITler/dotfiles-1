@@ -213,70 +213,6 @@ setup_sources() {
 	rankmirrors -n 6 /etc/pacman.d/mirrorlist
 }
 
-# installs base packages
-base() {
-
-	pacman -Syu
-
-	pacman -S \
-		vim \
-		git \
-		sudo
-
-	setup_sudo
-
-	#install_docker
-}
-
-desktop() {
-	 
-	# install desktop relevant packages
-	curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh > /tmp/oh-my-zsh.sh
-
-	sh /tmp/oh-my-zsh.sh
-
-	sudo pacman -S \
-		zsh \
-		qutebrowser \
-		rsync \
-		openssh \
-		pass \
-	  # gtk2 for /bin/pinentry
-		gtk2 \
-		rofi \
-		xdotool \
-		fasd \
-		python-virtaulenv \
-		python-pip \
-		zathura \
-		zathura-pdf-poppler \
-		aspell-en \
-		aspell-de \
-		lxdm \
-		pulseaudio \
-		pavucontrol \
-    # Use avahi and nss-mdns for resolving hosts in the .local TLD
-    avahi \
-    nss-mdns \
-    # for bluetooth headset
-    pulseaudio-bluetooth \
-    bluez \
-    bluez-libs \
-    bluez-utils
-
-  pip install virtualenvwrapper
-	# enable display manager
-	systemctl enable lxdm
-  sed -i -e 's/#autologin=.*$/autologin=sd'
-  sed -i -e 's/#session=.*$/session=/usr/bin/i3'
-	cat <<-EOFF >> /etc/lxdm/PostLogin
-/usr/bin/setxkbmap us altgr-intl -option caps:escape
-/usr/bin/xset r rate 200 50
-  EOFF
-	install_fonts
-	install_keybase
-	install_rofi_pass
-}
 # setup sudo for a user
 # because fuck typing that shit all the time
 # just have a decent password
@@ -308,6 +244,69 @@ setup_sudo() {
 	echo -e "\\n# tmpfs for downloads\\ntmpfs\\t/home/${TARGET_USER}/Downloads\\ttmpfs\\tnodev,nosuid,size=2G\\t0\\t0" >> /etc/fstab
 }
 
+
+# installs base packages
+base() {
+
+	pacman -Syu
+
+	pacman -S \
+		vim \
+		git \
+		sudo
+
+	setup_sudo
+
+	#install_docker
+}
+
+desktop() {
+	 
+	# install desktop relevant packages
+	sudo pacman -S zsh
+	curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh > /tmp/oh-my-zsh.sh
+
+	sh /tmp/oh-my-zsh.sh
+
+	sudo pacman -S \
+		qutebrowser \
+		rsync \
+		openssh \
+		pass \
+		gtk2 \
+		rofi \
+		xdotool \
+		fasd \
+		python-virtualenv \
+		python-pip \
+		zathura \
+		zathura-pdf-poppler \
+		aspell-en \
+		aspell-de \
+		lxdm \
+		pulseaudio \
+		pavucontrol \
+                avahi \
+                nss-mdns \
+                pulseaudio-bluetooth \
+                bluez \
+                bluez-libs \
+                bluez-utils \
+				rxvt-unicode
+
+  pip install virtualenvwrapper
+  # enable display manager
+  systemctl enable lxdm
+  sed -i -e 's/#autologin=.*$/autologin=sd/'
+  sed -i -e 's;#session=.*$;session=/usr/bin/i3;'
+  cat <<-EOFF >> /etc/lxdm/PostLogin
+/usr/bin/setxkbmap us altgr-intl -option caps:escape
+/usr/bin/xset r rate 200 50
+EOFF
+	install_fonts
+	install_keybase
+	install_rofi_pass
+}
 install_rofi_pass() {
 	curl -fSL https://github.com/carnager/rofi-pass/archive/2.0.1.tar.gz > /tmp/rofi-pass.tar.gz
 	cd /tmp && tar xvf rofi-pass.tar.gz
@@ -537,7 +536,7 @@ install_fonts() {
 }
 # install stuff for i3 window manager
 install_wmapps() {
-	local pkgs=( feh i3 i3lock i3status scrot xorg-xinit xorg-server sysstat acpi perl-i3-anyevent)
+	local pkgs=( feh i3 i3lock i3status scrot xorg-xinit xorg-server sysstat acpi )
 
 	pacman -S "${pkgs[@]}"
 

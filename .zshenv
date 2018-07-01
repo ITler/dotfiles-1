@@ -10,6 +10,7 @@ path=(
 /usr/local/go/bin
 "$HOME"/pc/code/go/bin
 "$HOME"/bin
+"$HOME"/.local/bin
 "$HOME"/.npm-global/bin
 "$SNAP_PATH"
 "$path")
