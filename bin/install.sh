@@ -594,9 +594,12 @@ install_spacemacs() {
 		mu \
 		npm \
 		isync \
+		ack \
+    # graphviz for plantuml
+    graphviz \
     # ghostscript is for Docview
     ghostscript
-	npm install -g tern eslint babel-eslint eslint-plugin-react
+	npm install -g tern eslint babel-eslint eslint-plugin-react js-beautify
 	cat <<-EOFF
 
 	# General
@@ -669,7 +672,7 @@ install_vim() {
 }
 
 install_paperless() {
-    git clone https://github.com/danielquinn/paperlistt.git ~/pc/prj/paperless
+    git clone https://github.com/danielquinn/paperless.git ~/pc/prj/paperless
     # install project dependencies
     sudo pacman -S \
          sane \
