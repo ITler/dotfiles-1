@@ -5,6 +5,13 @@ config_version: 2
 settings:
   auto_save.session:
     global: true
+  bindings.commands:
+    global:
+      normal:
+        '"': set-cmd-text :jump-mark B
+        '''': set-cmd-text -s :jump-mark A
+        '''''': set-cmd-text -s :jump-mark A
+        b: set-cmd-text -s :buffer
   fonts.completion.entry:
     global: 8pt monospace
   fonts.downloads:

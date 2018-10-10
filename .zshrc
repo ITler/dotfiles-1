@@ -5,13 +5,14 @@ source /bin/virtualenvwrapper.sh
 # Look in ~/.oh-my-zsh/themes/
 # Optionally, if you set this to "random", it'll load a random theme each
 # time that oh-my-zsh is loaded.
-ZSH_THEME="murilasso"
+ZSH_THEME="ys"
+
 
 # Uncomment the following line to enable command auto-correction.
-ENABLE_CORRECTION="true"
+#ENABLE_CORRECTION="true"
 
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git pass autojump zsh-syntax-highlighting jira sprunge)
+plugins=(git pass vi-mode autojump zsh-syntax-highlighting history-substring-search jira sprunge)
 
 # load fash
 eval "$(fasd --init auto)"
