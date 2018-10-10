@@ -1,0 +1,5 @@
+{
+	"storage-driver": "btrfs",
+	"insecure-registries": ["172.16.1.27:8082", "nexus.dev.signavio.com:8082"]
+
+}
