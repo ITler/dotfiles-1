@@ -58,6 +58,7 @@ setup_chroot() {
 	 
 	# Setup Time zone 
 	ln -sf /usr/share/zoneinfo/Europe/Berlin /etc/localtime
+	hwclock --systohc        
 
 	# Generate locales
        
