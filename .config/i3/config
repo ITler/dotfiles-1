@@ -39,9 +39,6 @@ floating_modifier $mod
 # start a terminal
 bindsym $mod+Return exec $term
 
-# start dmenu
-bindsym $mod+d exec $menu
-
 # start rofi-pass
 bindsym $mod+p exec $bindir/rofi-pass
 
@@ -130,8 +127,8 @@ bindsym $mod+space focus mode_toggle
 # focus the parent container
 bindsym $mod+a focus parent
 
-# focus the child container
-#bindsym $mod+d focus child
+# start dmenu
+bindsym $mod+d exec $menu
 
 # switch to workspace
 bindsym $mod+1 workspace 1
@@ -235,13 +232,14 @@ exec xrdb -merge $HOME/.Xdefaults
 
 ## Manual management of external displays
 # Set the shortcuts and what they do
-set $mode_display Ext Screen (v) VGA ON, (h) HDMI ON, (x) VGA OFF, (y) HDMI OFF
+set $mode_display Both monitors (v) VGA ON, (h) HDMI ON, (x) VGA OFF, (y) HDMI OFF (z) Both OFF
 mode "$mode_display" {
-    bindsym v exec --no-startup-id xrandr --output VGA1 --auto --above LVDS1, mode "default"
+    bindsym v exec --no-startup-id xrandr --output DP-1 --auto --right-of eDP-1 --output HDMI-2 --rotate left --right-of DP-1, mode "default"
     bindsym r exec --no-startup-id xrandr --output VGA1 --auto --rotate left --right-of LVDS1, mode "default"
     bindsym h exec --no-startup-id xrandr --output HDMI1 --auto --right-of LVDS1, mode "default"
     bindsym x exec --no-startup-id xrandr --output VGA1 --auto --off, mode "default"
     bindsym y exec --no-startup-id xrandr --output HDMI1 --auto --off, mode "default"
+    bindsym z exec --no-startup-id xrandr --output DP-1 --off --output HDMI-2 --off
 
     # back to normal: Enter or Escape
     bindsym Return mode "default"

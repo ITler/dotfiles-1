@@ -287,36 +287,37 @@ desktop() {
 	local pkgs=(
 		  aspell-de
 		  aspell-en
+		  avahi
+		  bluez
+		  bluez-libs
+		  bluez-utils
+		  dunst
 		  fasd
+		  feh
 		  gtk2
+		  i3
+		  i3lock
+		  i3status
 		  lxdm
+		  nss-mdns
 		  openssh
 		  pass
 		  pavucontrol
 		  pulseaudio
+		  pulseaudio-bluetooth
 		  python-pip
 		  python-virtualenv
+		  qutebrowser
 		  rofi
 		  rsync
 		  rxvt-unicode
+		  scrot
+		  sysstat acpi
 		  xdotool
+		  xorg-server
+		  xorg-xinit
 		  zathura
 		  zathura-pdf-poppler
-      avahi
-      bluez
-      bluez-libs
-      bluez-utils
-      feh
-      i3
-      i3lock
-      i3status
-      nss-mdns
-      pulseaudio-bluetooth
-      qutebrowser
-      scrot
-      sysstat acpi
-      xorg-server
-      xorg-xinit
   )
   sudo pacman -S "${pkgs[@]}"
   pip install virtualenvwrapper
@@ -467,6 +468,9 @@ install_spacemacs() {
 	# Email
 
 	- Make sure you edit your ~/.mbsyncrc file accordingly
+
+	- After this fetch your email from the IMAP Server
+	> mbsync -a
 
 	- Don't forget to update the mu database by running the following command
 	> mu index --maildir ~/q/mail/Personal
