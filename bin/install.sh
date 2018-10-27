@@ -50,14 +50,11 @@ check_is_sudo() {
 setup_chroot() {
 	  "$(pwd)"/arch-bootstrap /mnt
     cat <<-EOF
-	# Make sure you have bound the proper devices first:
-
-	mount --bind /proc /mnt/proc
-	mount --bind /sys /mnt/sys
-	mount --bind /dev /mnt/dev
-
 	# Install base and base-devel packages
-	pacman -S base base-devel
+	pacstrap /mnt base base-devel
+
+        # Chroot into the new environment
+        arch-chroot /mnt
 	 
 	# Setup Time zone 
 	ln -sf /usr/share/zoneinfo/Europe/Berlin /etc/localtime
