@@ -70,6 +70,9 @@ setup_chroot() {
 	FONT_MAP=8859-1
 	EOFF
 
+	# Set date using ntp
+	timedatectl set-ntp true
+
 	# Set Hostname
 	echo "myhostname" > /etc/hostname
 	cat <<-EOFF > /etc/hosts 
