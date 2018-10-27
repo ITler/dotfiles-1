@@ -51,7 +51,7 @@ setup_chroot() {
 	  "$(pwd)"/arch-bootstrap /mnt
     cat <<-EOF
 	# Install base and base-devel packages
-	pacstrap /mnt base base-devel
+	pacstrap /mnt base base-devel btrfs-progs
 
         # Chroot into the new environment
         arch-chroot /mnt
