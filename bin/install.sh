@@ -64,6 +64,7 @@ setup_chroot() {
        
 	sed -i -e 's/^#en_US.UTF-8 UTF-8/en_US.UTF-8 UTF-8/' -e  's/^#de_DE.UTF-8 UTF-8/de_DE.UTF-8 UTF-8' /etc/locale.gen
 	echo "LANG=de_DE.UTF-8" > /etc/locale.conf
+	locale-gen
 	cat <<-EOFF > /etc/vconsole.conf
 	FONT=lat1-14
 	FONT_MAP=8859-1
