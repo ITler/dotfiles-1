@@ -141,4 +141,4 @@ alias fan="sudo su -c 'echo level 1 | tee /proc/acpi/ibm/fan'"
 alias qutebrowser="qutebrowser --enable-webengine-inspector"
 
 # Emacs client when we have a running emacs daemon
-alias emc="emacsclient -nc -s theone"
+alias emc="emacsclient -nc"

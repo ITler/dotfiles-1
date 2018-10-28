@@ -48,7 +48,6 @@ check_is_sudo() {
 	fi
 }
 setup_chroot() {
-	  "$(pwd)"/arch-bootstrap /mnt
     cat <<-EOF
 	# Install base and base-devel packages
 	pacstrap /mnt base base-devel btrfs-progs
@@ -266,19 +265,15 @@ setup_sudo() {
 
 # installs base packages
 base() {
-
 	pacman -Syu
-
-	pacman -S \
-		vim \
-		git \
-		sudo
-
+	local pkgs=(
+	  vim
+	  git
+	  sudo
+	)
+	pacman -S "${pkgs[@]}"
 	setup_sudo
-
-	#install_docker
 }
-
 desktop() {
 	 
 	# install desktop relevant packages
@@ -287,6 +282,7 @@ desktop() {
 
 	sh /tmp/oh-my-zsh.sh
 	local pkgs=(
+		  acpi
 		  aspell-de
 		  aspell-en
 		  avahi
@@ -297,10 +293,6 @@ desktop() {
 		  fasd
 		  feh
 		  gtk2
-		  i3
-		  i3lock
-		  i3status
-		  lxdm
 		  nss-mdns
 		  openssh
 		  pass
@@ -312,28 +304,23 @@ desktop() {
 		  qutebrowser
 		  rofi
 		  rsync
-		  rxvt-unicode
 		  scrot
-		  sysstat acpi
+		  sysstat 
+		  termite
 		  xdotool
 		  xorg-server
+		  xorg-server-xwayland
 		  xorg-xinit
 		  zathura
 		  zathura-pdf-poppler
   )
   sudo pacman -S "${pkgs[@]}"
   pip install virtualenvwrapper
-  # enable display manager
-  systemctl enable lxdm
-  sed -i -e 's/#autologin=.*$/autologin=sd/'
-  sed -i -e 's;#session=.*$;session=/usr/bin/i3;'
-  cat <<-EOFF >> /etc/lxdm/PostLogin
-/usr/bin/setxkbmap us altgr-intl -option caps:escape
-/usr/bin/xset r rate 200 50
-EOFF
-	install_fonts
-	install_keybase
-	install_rofi_pass
+  install_fonts
+  install_keybase
+  install_rofi_pass
+  install_utils
+  install_goodies
 }
 install_utils() {
     # import the GPG key of aurman maintainer
@@ -343,14 +330,28 @@ install_utils() {
     sudo pacman -U aurman*tar.xz
 }
 install_goodies() {
-    local pkgs=( spotify )
+    local pkgs=( 
+      grim-git
+      keybase
+      mako
+      plantuml
+      slurp-git
+      spotify 
+      sway-git
+      waybar-git
+    )
     local gopkgs=(
-        github.com/golang/lint/golint
-	      golang.org/x/tools/cmd/cover
-	      golang.org/x/review/git-codereview
-	      golang.org/x/tools/cmd/goimports
-	      golang.org/x/tools/cmd/gorename
-	      golang.org/x/tools/cmd/guru
+      github.com/golang/lint/golint
+      # for command autocompletion
+      github.com/nsf/gocode
+      # for analysing symbols
+      github.com/rogpeppe/godef
+      golang.org/x/review/git-codereview
+      golang.org/x/tools/cmd/cover
+      # for automatic imports
+      golang.org/x/tools/cmd/goimports
+      golang.org/x/tools/cmd/gorename
+      golang.org/x/tools/cmd/guru
     )
     go get "${pkgs[@]}"
     aurman -s "${pkgs[@]}"
@@ -397,30 +398,22 @@ install_golang() {
 	sudo chown -R "${user}" /usr/local/go/pkg
 	CGO_ENABLED=0 /usr/local/go/bin/go install -a -installsuffix cgo std
 	)
-  # for analysing symbols
-  go get -u github.com/rogpeppe/godef
-  # dependency management tool
-  go get -u github.com/tools/godep
-  # for command autocompletion
-  go get -u github.com/nsf/gocode
-  # for automatic imports
-  go get -u golang.org/x/tools/cmd/goimports
 }
 
 install_fonts() {
   local pkgs=(
-	  adobe-source-code-pro-fonts
-	  ttf-liberation
-	  ttf-dejavu
-	  ttf-linux-libertine
-	  ttf-font-awesome
+    adobe-source-code-pro-fonts
+    ttf-dejavu
+    ttf-font-awesome
+    ttf-liberation
+    ttf-linux-libertine
     ttf-opensans
   )
   aurman -S "${pkgs[@]}"
 }
 # install stuff for i3 window manager
 install_wmapps() {
-	local pkgs=( feh i3 i3lock i3status scrot xorg-xinit xorg-server sysstat acpi )
+	local pkgs=( feh xorg-xinit xorg-server sysstat acpi )
 	pacman -S "${pkgs[@]}"
 	install_dotfiles
 }
