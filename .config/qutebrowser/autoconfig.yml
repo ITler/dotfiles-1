@@ -13,17 +13,17 @@ settings:
         '''''': set-cmd-text -s :jump-mark A
         b: set-cmd-text -s :buffer
   fonts.completion.entry:
-    global: 8pt monospace
+    global: 14pt monospace
   fonts.downloads:
-    global: 8pt monospace
+    global: 14pt monospace
   fonts.messages.error:
-    global: 8pt monospace
+    global: 14pt monospace
   fonts.prompts:
-    global: 8pt monospace
+    global: 14pt monospace
   fonts.statusbar:
-    global: 8pt monospace
+    global: 14pt monospace
   fonts.tabs:
-    global: 8pt monospace
+    global: 14pt monospace
   tabs.position:
     global: right
   tabs.show:
