@@ -111,7 +111,7 @@ chroot() {
 	ask ln -sf /usr/share/zoneinfo/Europe/Berlin /etc/localtime
 	ask hwclock --systohc
 	echo '## Generate locales'
-	ask sed -i -e 's/^#en_US.UTF-8 UTF-8/en_US.UTF-8 UTF-8/' -e  's/^#de_DE.UTF-8 UTF-8/de_DE.UTF-8 UTF-8' /etc/locale.gen
+	ask sed -i -e 's/^#en_US.UTF-8 UTF-8/en_US.UTF-8 UTF-8/' -e  's/^#de_DE.UTF-8 UTF-8/de_DE.UTF-8 UTF-8/' /etc/locale.gen
 	ask echo "LANG=de_DE.UTF-8" > /etc/locale.conf
 	ask locale-gen
 	ask cat <<-EOFF > /etc/vconsole.conf
