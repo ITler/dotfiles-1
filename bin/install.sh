@@ -88,11 +88,11 @@ EOF
   echo '## Create nested subvolumes'
   ask mkdir -p /mnt/var/cache/pacman
 	ask btrfs subvolume create /mnt/var/cache/pacman/pkg
-	ask mkdir -p /var
+	ask mkdir -p /mnt/var
 	ask btrfs subvolume create /mnt/var/tmp
   echo '## Mount ESP'
   ask mkdir /mnt/boot
-	ask mkfs.fat -F32 /dev/sd1
+	ask mkfs.fat -F32 ${esp_partition}
 	ask mount ${esp_partition} /mnt/boot
 	echo '## Install base and base-devel packages'
 	ask pacstrap /mnt base base-devel btrfs-progs
@@ -199,6 +199,7 @@ desktop() {
 		bluez
 		bluez-libs
 		bluez-utils
+		emacs
 		fasd
 		feh
 		gtk2
@@ -212,10 +213,11 @@ desktop() {
 		python-virtualenv
 		qutebrowser
 		rofi
-    rofi-pass
+		rofi-pass
 		rsync
 		sysstat
 		termite
+		the_silver_searcher
 		xdotool
 		xorg-server
 		xorg-server-xwayland
