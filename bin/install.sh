@@ -97,7 +97,7 @@ EOF
 	echo '## Install base and base-devel packages'
 	ask pacstrap /mnt base base-devel btrfs-progs
   echo '## Chrooting into the new environment, continue with ./install.sh chroot'
-  ask cp install.sh /mnt/
+  ask cp ./bin/install.sh /mnt/
   ask arch-chroot /mnt
 }
 chroot() {
