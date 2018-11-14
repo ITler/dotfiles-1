@@ -114,10 +114,8 @@ chroot() {
 	ask sed -i -e 's/^#en_US.UTF-8 UTF-8/en_US.UTF-8 UTF-8/' -e  's/^#de_DE.UTF-8 UTF-8/de_DE.UTF-8 UTF-8/' /etc/locale.gen
 	ask echo "LANG=de_DE.UTF-8" > /etc/locale.conf
 	ask locale-gen
-	ask cat <<-EOFF > /etc/vconsole.conf
-FONT=lat1-14
-FONT_MAP=8859-1
-EOFF
+	ask sed -i '$ a FONT=lat1-14' /etc/vconsole.conf
+	ask sed -i '$ a FONT_MAP=8859-1' /etc/vconsole.conf
 	echo '## Set date using ntp'
 	ask timedatectl set-ntp true
 	echo '## Set Hostname'
@@ -140,22 +138,17 @@ EOFF
   ask pacman -S vim git sudo
 	echo '## Configure Bootloader (using systemd-boot)'
 	ask bootctl --path=/boot install
-	ask cat <<-EOFF > /boot/loader/entries/arch.conf
-title Arch Linux
-linux /vmlinuz-linux
-initrd /initramfs-linux.img
-options cryptdevice=${crypt_vol}:crypt root=/dev/mapper/crypt rootflags=subvol=@ rw quiet
-EOFF
+	ask sed -i '$ a title Arch Linux' /boot/loader/entries/arch.conf
+	ask sed -i '$ a linux /vmlinuz-linux' /boot/loader/entries/arch.conf
+	ask sed -i '$ a initrd /initramfs-linux.img' /boot/loader/entries/arch.conf
+	ask sed -i "$ a options cryptdevice=${crypt_vol}:crypt root=/dev/mapper/crypt rootflags=subvol=@ rw quiet" /boot/loader/entries/arch.conf
 echo '## Install wireless networking tools (wifi-menu)'
-pacman -S wpa_supplicant dialog
+ask pacman -S wpa_supplicant dialog
 echo '## Update fstab (using btrfs_label)'
-cat <<-EOFF > /etc/fstab
-UUID=${boot_uuid} /boot vfat rw,relatime,fmask=0022,dmask=0022,codepage=437,iocharset=iso8859-1,shortname=mixed,errors=remount-ro 0 2
-LABEL=${btrfs_label} / btrfs rw,defaults,noatime,compress=lzo,ssd,space_cache,subvol=/@ 0 0
-LABEL=${btrfs_label} /home btrfs rw,defaults,noatime,compress=lzo,ssd,space_cache,subvol=/@home 0 0
-LABEL=${btrfs_label} /.snapshots btrfs rw,defaults,noatime,compress=lzo,ssd,space_cache,subvol=/@snapshots 0 0
-EOFF
-
+	ask sed -i "$ a UUID=${boot_uuid} /boot vfat rw,relatime,fmask=0022,dmask=0022,codepage=437,iocharset=iso8859-1,shortname=mixed,errors=remount-ro 0 2" /etc/fstab
+	ask sed -i "$ a LABEL=${btrfs_label} / btrfs rw,defaults,noatime,compress=lzo,ssd,space_cache,subvol=/@ 0 0" /etc/fstab
+	ask sed -i "$ a LABEL=${btrfs_label} /home btrfs rw,defaults,noatime,compress=lzo,ssd,space_cache,subvol=/@home 0 0" /etc/fstab
+	ask sed -i "$ a LABEL=${btrfs_label} /.snapshots btrfs rw,defaults,noatime,compress=lzo,ssd,space_cache,subvol=/@snapshots 0 0" /etc/fstab
   echo '## Finished in chroot Chrooting. Please reboot then continue with ./install.sh desktop'
 }
 
@@ -376,7 +369,7 @@ ask() {
 	      read doesNotConsent
 	      if [[ ! -z "$doesNotConsent" ]]
 	      then
-            vim $hist && bash $hist
+            vi $hist && bash $hist
 	      else
             # Assume user consents when enter is pressed
             exec "$@"
