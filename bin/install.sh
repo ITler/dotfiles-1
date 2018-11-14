@@ -116,10 +116,6 @@ chroot() {
 	ask locale-gen
 	ask sed -i '$ a FONT=lat1-14' /etc/vconsole.conf
 	ask sed -i '$ a FONT_MAP=8859-1' /etc/vconsole.conf
-	echo '## Set date using ntp'
-	ask timedatectl set-ntp true
-	echo '## Set Hostname'
-  ask hostnamectl set-hostname "${hostname}"
 	echo '## Configuring mkinitcpio'
 	ask sed -i -e 's/MODULES=()/MODULES=\(vfat\)/' \
 	    -e 's#BINARIES=()#BINARIES=\(/usr/bin/btrfs\)#' \
@@ -132,19 +128,19 @@ chroot() {
   ask useradd -m -G users,wheel,video ${username}
   ask passwd ${username}
 	setup_sudo
-	echo '## install CPU microcode (for intel)'
-	ask pacman -S intel-ucode
 	echo '## install other neccessary packages'
   ask pacman -S vim git sudo
 	echo '## Configure Bootloader (using systemd-boot)'
 	ask bootctl --path=/boot install
+  ask mkdir -p /boot/loader/entries
+  ask touch /boot/loader/entries/arch.conf
 	ask sed -i '$ a title Arch Linux' /boot/loader/entries/arch.conf
 	ask sed -i '$ a linux /vmlinuz-linux' /boot/loader/entries/arch.conf
 	ask sed -i '$ a initrd /initramfs-linux.img' /boot/loader/entries/arch.conf
 	ask sed -i "$ a options cryptdevice=${crypt_vol}:crypt root=/dev/mapper/crypt rootflags=subvol=@ rw quiet" /boot/loader/entries/arch.conf
-echo '## Install wireless networking tools (wifi-menu)'
-ask pacman -S wpa_supplicant dialog
-echo '## Update fstab (using btrfs_label)'
+  echo '## Install wireless networking tools (wifi-menu)'
+  ask pacman -S wpa_supplicant dialog
+  echo '## Update fstab (using btrfs_label)'
 	ask sed -i "$ a UUID=${boot_uuid} /boot vfat rw,relatime,fmask=0022,dmask=0022,codepage=437,iocharset=iso8859-1,shortname=mixed,errors=remount-ro 0 2" /etc/fstab
 	ask sed -i "$ a LABEL=${btrfs_label} / btrfs rw,defaults,noatime,compress=lzo,ssd,space_cache,subvol=/@ 0 0" /etc/fstab
 	ask sed -i "$ a LABEL=${btrfs_label} /home btrfs rw,defaults,noatime,compress=lzo,ssd,space_cache,subvol=/@home 0 0" /etc/fstab
@@ -153,27 +149,25 @@ echo '## Update fstab (using btrfs_label)'
 }
 
 setup_sudo() {
-	  echo -e '## add user to sudoers'
+    get_user
+	  echo '## add user to sudoers'
 	  ask "gpasswd -a ${TARGET_USER} wheel"
-	  echo '## add user to systemd groups\nthen you wont need sudo to view logs and shit'
+	  echo '## add user to systemd groups'
 	  ask "gpasswd -a ${TARGET_USER} systemd-journal"
 	  ask "gpasswd -a ${TARGET_USER} systemd-network"
-
-	  # add go path to secure path
-	  { \
-		  echo -e "Defaults	secure_path=\"/usr/local/go/bin:/home/${USERNAME}/.go/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin\""; \
-		  echo -e 'Defaults	env_keep += "ftp_proxy http_proxy https_proxy no_proxy GOPATH EDITOR"'; \
-		  echo -e "${TARGET_USER} ALL=(ALL) NOPASSWD:ALL"; \
-		  echo -e "${TARGET_USER} ALL=NOPASSWD: /sbin/ifconfig, /sbin/ifup, /sbin/ifdown, /sbin/ifquery"; \
-	    } >> /etc/sudoers
-
-	  echo 'setup downloads folder as tmpfs'
-	  echo 'that way things are removed on reboot'
-	  echo 'i like things clean but you may not want this'
+    ask sed -i "$ a ${TARGET_USER} ALL=(ALL) NOPASSWD:ALL" /etc/sudoers
+    ask sed -i "$ a ${TARGET_USER} ALL=NOPASSWD: /sbin/ifconfig, /sbin/ifup, /sbin/ifdown, /sbin/ifquery" /etc/sudoers
+	  echo '## setup downloads folder as tmpfs'
 	  ask mkdir -p "/home/$TARGET_USER/Downloads"
-	  ask echo -e "\\n# tmpfs for downloads\\ntmpfs\\t/home/${TARGET_USER}/Downloads\\ttmpfs\\tnodev,nosuid,size=2G\\t0\\t0" >> /etc/fstab
+	  ask sed -i "$ a tmpfs  /home/${TARGET_USER}/Downloads  tmpfs  nodev,nosuid,size=2G  0  0" /etc/fstab
 }
 desktop() {
+	echo '## install CPU microcode (for intel)'
+	ask pacman -S intel-ucode
+	echo '## Set date using ntp'
+	ask timedatectl set-ntp true
+	echo '## Set Hostname'
+  ask hostnamectl set-hostname "${hostname}"
 	ask sudo pacman -S zsh
 	ask curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh > "${tempdir}/oh-my-zsh.sh"
 
