@@ -2,6 +2,9 @@
 # install.sh
 #	This script installs my basic setup for a archlinux laptop.
 #	Forked from @jessfraz
+user_name=${2:-sd}
+machine_name=${3:-thor}
+disc=${4:-sdb}
 tempdir="$(mktemp -d)"
 hist="${tempdir}/history"
 touch $hist
@@ -23,10 +26,10 @@ error() {
 trap 'error ${LINENO}' ERR
 
 setup_partitions() {
-    local btrfs_partition=/dev/sdb2
-    local esp_partition=/dev/sdb1
-    local swap_partition=/dev/sdb3
-    local btrfs_label=thor
+    local btrfs_partition=/dev/${disc}2
+    local esp_partition=/dev/${disc}1
+    local swap_partition=/dev/${disc}3
+    local btrfs_label=${machine_name}
     cat <<-EOF
 # Disk partioning for btrfs subvolumes with swap #
 
@@ -35,7 +38,7 @@ setup_partitions() {
        |unencrypted               |LUKS-encrypted            |plain-encrypted           |
        |                          |                          |                          |
        |/boot/efi                 |/                         |[SWAP]                    |
-       |/dev/sdb1                 |/dev/sdb2                 |/dev/sdb3                 |
+       |/dev/${disc}1                 |/dev/${disc}2                 |/dev/${disc}3                 |
        |--------------------------+--------------------------+--------------------------+
 
 ## Create LUKS container
@@ -52,7 +55,7 @@ EOF
 
 - We will be using the following layout here
 
-subvolid=5 (/dev/sdb2)
+subvolid=5 (/dev/${disc}2)
       |
       ├── @ (mounted as /)
       |       |
@@ -101,12 +104,12 @@ EOF
   ask arch-chroot /mnt
 }
 chroot() {
-  local hostname=thor
-  local btrfs_partition=/dev/sdb2
+  local hostname=${machine_name}
+  local btrfs_partition=/dev/${disc}2
   local crypt_vol="${btrfs_partition}"
-  local btrfs_label=thor
-  local boot_uuid="xxxxx"
-  local username=sd
+  local btrfs_label=${machine_name}
+  local boot_uuid=$(blkid | grep /dev/${disc}1 | grep -o "UUID\S*" | head -1 | tr -d '"' | awk -F= '{print $NF}')
+  local username=${user_name}
 	echo '## Setup Time zone'
 	ask ln -sf /usr/share/zoneinfo/Europe/Berlin /etc/localtime
 	ask hwclock --systohc
