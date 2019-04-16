@@ -115,8 +115,10 @@ chroot() {
 	ask hwclock --systohc
 	echo '## Generate locales'
 	ask sed -i -e 's/^#en_US.UTF-8 UTF-8/en_US.UTF-8 UTF-8/' -e  's/^#de_DE.UTF-8 UTF-8/de_DE.UTF-8 UTF-8/' /etc/locale.gen
+	ask touch /etc/locale.conf
 	ask sed -i '$ a LANG=de_DE.UTF-8' /etc/locale.conf
 	ask locale-gen
+	ask touch /etc/vconsole.conf
 	ask sed -i '$ a FONT=lat1-14' /etc/vconsole.conf
 	ask sed -i '$ a FONT_MAP=8859-1' /etc/vconsole.conf
 	echo '## Configuring mkinitcpio'
@@ -154,10 +156,10 @@ chroot() {
 setup_sudo() {
     get_user
 	  echo '## add user to sudoers'
-	  ask "gpasswd -a ${TARGET_USER} wheel"
+	  ask gpasswd -a ${TARGET_USER} wheel
 	  echo '## add user to systemd groups'
-	  ask "gpasswd -a ${TARGET_USER} systemd-journal"
-	  ask "gpasswd -a ${TARGET_USER} systemd-network"
+	  ask gpasswd -a ${TARGET_USER} systemd-journal
+	  ask gpasswd -a ${TARGET_USER} systemd-network
     ask sed -i "$ a ${TARGET_USER} ALL=(ALL) NOPASSWD:ALL" /etc/sudoers
     ask sed -i "$ a ${TARGET_USER} ALL=NOPASSWD: /sbin/ifconfig, /sbin/ifup, /sbin/ifdown, /sbin/ifquery" /etc/sudoers
 	  echo '## setup downloads folder as tmpfs'
